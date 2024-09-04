@@ -3,8 +3,13 @@ package com.codeforge.schoolmanagement.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,23 +19,27 @@ public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	@Column(unique = true)
 	private String email;
 	private String password;
 	private boolean isActive;
-	private int role_id;
+	@ManyToOne
+	@JoinColumn(name="role_id")
+	private Role role;
 	
 	public User() {
 	}
 	
 	
-	public User(int id, String email, String password, boolean isActive, int role_id) {
+	public User(int id, String email, String password, boolean isActive, Role role) {
 		super();
 		this.id = id;
 		this.email = email;
 		this.password = password;
 		this.isActive = isActive;
-		this.role_id = role_id;	
+		this.role = role;	
 	}
 
 	
@@ -74,13 +83,13 @@ public class User implements Serializable{
 	}
 
 
-	public int getRole_id() {
-		return role_id;
+	public Role getRole_id() {
+		return role;
 	}
 
 
-	public void setRole_id(int role_id) {
-		this.role_id = role_id;
+	public void setRole_id(Role role) {
+		this.role = role;
 	}
 
 
